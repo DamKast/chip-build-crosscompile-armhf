@@ -1,1 +1,1 @@
-# chip-build-crosscompile-armv7
+# chip-build-crosscompile-armhf
