@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 me=$(basename "$0")
-cd "$(dirname "$0")"
 
 ORG=${DOCKER_BUILD_ORG:-damienkastner}
 
@@ -48,12 +47,6 @@ set -ex
 if [ -f "$DOCKER_VOLUME_PATH" ]; then
     mb_space_before=$(df -m "$DOCKER_VOLUME_PATH" | awk 'FNR==2{print $3}')
 fi
-
-# go find and build any CHIP images this image is "FROM"
-# awk -F/ '/^FROM connectedhomeip/ {print $2}' Dockerfile | while read -r dep; do
-#     dep=${dep%:*}
-#     (cd "../$dep" && ./build.sh "$@")
-# done
 
 BUILD_ARGS=()
 if [[ ${*/--no-cache//} != "${*}" ]]; then
