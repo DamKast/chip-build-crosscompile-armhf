@@ -5,7 +5,7 @@ on: push
 jobs:
     build_prepare:
         name: Prepare build
-        runs-on: self-hosted
+        runs-on: ubuntu-latest
         outputs:
             version: ${{ steps.python-version.outputs.value }}
             channel: ${{ steps.version.outputs.channel }}
@@ -46,9 +46,9 @@ jobs:
         strategy:
             matrix:
                 arch:
-                    - name: armv7
+                    - name: cross-armv7
                       container: damienkastner/chip-build-crosscompile-armhf:latest
-                      runner: self-hosted
+                      runner: ubuntu-latest
 
         runs-on: ${{ matrix.arch.runner }}
         permissions:
