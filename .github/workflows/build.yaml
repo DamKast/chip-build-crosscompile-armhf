@@ -47,7 +47,7 @@ jobs:
             matrix:
                 arch:
                     - name: armv7
-                      container: damienkastner/chip-build-crosscompile-armhf:0.6.18
+                      container: damienkastner/chip-build-crosscompile-armhf:latest
                       runner: self-hosted
 
         runs-on: ${{ matrix.arch.runner }}
