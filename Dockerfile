@@ -11,6 +11,7 @@ RUN set -x \
 
 WORKDIR /opt
 
+# Need to have the sysroot archive in the repo folder.
 COPY ./raspberry-armhf-sysroot.tar.xz /opt
 # Unpack the sysroot, while also removing some rather large items in it that
 # are generally not required for compilation
@@ -33,4 +34,7 @@ COPY --from=build /opt/raspberry-armhf-sysroot/ /opt/raspberry-armhf-sysroot/
 #     && ln -s /usr/lib/armv7-linux-gnueabihf /usr/lib/arm-linux-gnueabihf
 #     && ln -s /usr/lib/armv7-linux-gnueabihf /usr/include/lib/arm-linux-gnueabihf
 
+RUN ln -s /opt/raspberry-armhf-sysroot/lib/ /opt/raspberry-armhf-sysroot/usr/lib
+
 ENV SYSROOT_ARMHF=/opt/raspberry-armhf-sysroot
+ENV PKG_CONFIG_PATH="/opt/raspberry-armhf-sysroot/usr/lib/arm-linux-gnueabihf/pkgconfig"
