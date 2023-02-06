@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-me=$(basename "$0")
-
 ORG=${DOCKER_BUILD_ORG:-damienkastner}
 
 # directory name is
@@ -19,7 +17,7 @@ fi
 
 [[ ${*/--help//} != "${*}" ]] && {
     set +x
-    echo "Usage: $me <OPTIONS>
+    echo "Usage: <OPTIONS>
 
   Build and (optionally tag as latest, push) a docker image from Dockerfile in CWD
 
@@ -36,7 +34,7 @@ fi
 }
 
 die() {
-    echo "$me: *** ERROR: $*"
+    echo "*** ERROR: $*"
     exit 1
 }
 
