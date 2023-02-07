@@ -5,6 +5,7 @@ RUN set -x \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -fy --no-install-recommends \
     git \
+    g++-arm-linux-gnueabihf \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/ \
     && : # last line
