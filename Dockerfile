@@ -1,5 +1,5 @@
-ARG VERSION=latest
-FROM connectedhomeip/chip-build:${VERSION} as build
+ARG VERSION=0.6.25
+FROM connectedhomeip/chip-build:${VERSION}
 
 RUN set -x \
     && apt-get update \
@@ -31,16 +31,7 @@ RUN set -x \
     && rm -rf /opt/raspberry-buster-armhf-sysroot/lib/modules \
     && : # last line
 
-FROM connectedhomeip/chip-build:${VERSION}
-
-COPY --from=build /opt/raspberry-buster-armhf-sysroot /opt/raspberry-buster-armhf-sysroot
-
-# Required symlinks for 32-bit
-# RUN set -x \
-#     && ln -s /usr/lib/armv7-linux-gnueabihf /usr/lib/arm-linux-gnueabihf
-#     && ln -s /usr/lib/armv7-linux-gnueabihf /usr/include/lib/arm-linux-gnueabihf
-
-RUN ln -s /opt/raspberry-buster-armhf-sysroot/lib/ /opt/raspberry-buster-armhf-sysroot/usr/lib
+RUN ln -s /opt/raspberry-buster-armhf-sysroot/usr/lib/ /opt/raspberry-buster-armhf-sysroot/lib
 
 ENV SYSROOT_ARMHF=/opt/raspberry-buster-armhf-sysroot
 ENV PKG_CONFIG_PATH=/opt/raspberry-buster-armhf-sysroot/usr/lib/arm-linux-gnueabihf/pkgconfig
