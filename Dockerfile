@@ -1,4 +1,4 @@
-ARG VERSION=0.6.25
+ARG VERSION=0.7.11
 FROM connectedhomeip/chip-build:${VERSION}
 
 RUN set -x \
