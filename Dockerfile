@@ -31,11 +31,17 @@ RUN set -x \
     && make altinstall \
     && cd / \
     && rm -rf /tmp/Python-3.11.9* \
-    && update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.11 1 \
-    && update-alternatives --install /usr/bin/python python /usr/local/bin/python3.11 1 \
-    && python3.11 -m pip install --upgrade pip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/
+
+# Force Python 3.11 as default by replacing symlinks
+RUN rm -f /usr/bin/python3 /usr/bin/python \
+    && ln -sf /usr/local/bin/python3.11 /usr/bin/python3 \
+    && ln -sf /usr/local/bin/python3.11 /usr/bin/python \
+    && ln -sf /usr/local/bin/pip3.11 /usr/bin/pip3 \
+    && ln -sf /usr/local/bin/pip3.11 /usr/bin/pip \
+    && python3 --version \
+    && python3 -m pip install --upgrade pip
 
 
 # Need to have the sysroot archive in the repo folder.
