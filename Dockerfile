@@ -49,23 +49,27 @@ RUN rm -f /usr/bin/python3 /usr/bin/python \
 # Old:
 # COPY ./raspberry-armhf-sysroot.tar.xz /opt
 
-COPY ./raspberry-buster-armhf-sysroot.tar.xz /opt
+COPY ./raspberry-bookworm-armhf-sysroot.tar.xz /opt
 
 WORKDIR /opt
 # Unpack the sysroot, while also removing some rather large items in it that
 # are generally not required for compilation
 RUN set -x \
-    && mkdir -p /opt/raspberry-buster-armhf-sysroot \
-    && tar xfvJ raspberry-buster-armhf-sysroot.tar.xz -C /opt/raspberry-buster-armhf-sysroot \
-    && rm -rf /opt/raspberry-buster-armhf-sysroot/usr/lib/firmware \
-    && rm -rf /opt/raspberry-buster-armhf-sysroot/usr/lib/git-core \
-    && rm -rf /opt/raspberry-buster-armhf-sysroot/usr/lib/modules \
-    && rm -rf /opt/raspberry-buster-armhf-sysroot/lib/firmware \
-    && rm -rf /opt/raspberry-buster-armhf-sysroot/lib/git-core \
-    && rm -rf /opt/raspberry-buster-armhf-sysroot/lib/modules
+    && mkdir -p /opt/raspberry-bookworm-armhf-sysroot \
+    && tar xfvJ raspberry-bookworm-armhf-sysroot.tar.xz -C /opt/raspberry-bookworm-armhf-sysroot \
+    && rm -rf /opt/raspberry-bookworm-armhf-sysroot/usr/lib/firmware \
+    && rm -rf /opt/raspberry-bookworm-armhf-sysroot/usr/lib/git-core \
+    && rm -rf /opt/raspberry-bookworm-armhf-sysroot/usr/lib/modules \
+    && rm -rf /opt/raspberry-bookworm-armhf-sysroot/lib/firmware \
+    && rm -rf /opt/raspberry-bookworm-armhf-sysroot/lib/git-core \
+    && rm -rf /opt/raspberry-bookworm-armhf-sysroot/lib/modules
 
-RUN rm -rf /opt/raspberry-buster-armhf-sysroot/lib 2>/dev/null || true \
-    && ln -s /opt/raspberry-buster-armhf-sysroot/usr/lib /opt/raspberry-buster-armhf-sysroot/lib
+RUN rm -rf /opt/raspberry-bookworm-armhf-sysroot/lib 2>/dev/null || true \
+    && ln -s /opt/raspberry-bookworm-armhf-sysroot/usr/lib /opt/raspberry-bookworm-armhf-sysroot/lib
 
-ENV SYSROOT_ARMHF=/opt/raspberry-buster-armhf-sysroot
-ENV PKG_CONFIG_PATH=/opt/raspberry-buster-armhf-sysroot/usr/lib/arm-linux-gnueabihf/pkgconfig
+# Debug: Check what pkgconfig files exist
+RUN find /opt/raspberry-bookworm-armhf-sysroot -name "*.pc" | head -50
+
+ENV SYSROOT_ARMHF=/opt/raspberry-bookworm-armhf-sysroot
+ENV PKG_CONFIG_PATH=/opt/raspberry-bookworm-armhf-sysroot/usr/lib/arm-linux-gnueabihf/pkgconfig:/opt/raspberry-bookworm-armhf-sysroot/usr/lib/pkgconfig:/opt/raspberry-bookworm-armhf-sysroot/usr/share/pkgconfig
+ENV PKG_CONFIG_SYSROOT_DIR=/opt/raspberry-bookworm-armhf-sysroot
